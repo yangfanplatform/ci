@@ -15,12 +15,14 @@ jobs:
       - name: Modify IMAGE_NAME_SERVER
         id: modify
         run: |
-          echo "::set-env name=IMAGE_NAME_SERVER_NEW::${IMAGE_NAME_SERVER}-debug"
+          echo "server-debug" > image_name_server_new.txt
+          echo "::set-output name=image_name_server_new::image_name_server_new.txt"
   
   job2:
     needs: job1
     runs-on: ubuntu-latest
     steps:
       - name: Use modified IMAGE_NAME_SERVER
+        id: use
         run: |
-          echo "Using modified IMAGE_NAME_SERVER: ${{ env.IMAGE_NAME_SERVER_NEW }}"
+          echo "Using modified IMAGE_NAME_SERVER: $(cat ${{ needs.job1.outputs.image_name_server_new }})"
