@@ -21,7 +21,7 @@ jobs:
           echo "::set-output image_name_server=${{ env.IMAGE_NAME_SERVER }}-debug" 
       - name: output
         run: |
-          echo "Using modified IMAGE_NAME_SERVER1: ${IMAGE_NAME_SERVER}"
+          echo "Using modified IMAGE_NAME_SERVER1: ${{ needs.set-image-tag.outputs.image_name_server }}"
           
   test-name:
     needs: set-image-tag
