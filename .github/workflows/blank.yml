@@ -18,10 +18,12 @@ jobs:
         if: steps.check_tag.outputs.is_tag != 'true'
         id: outputs
         run: |
-          echo "::set-output image_name_server=${{ env.IMAGE_NAME_SERVER }}-debug" 
+          echo "IMAGE_NAME_SERVER=${{ env.IMAGE_NAME_SERVER }}-debug" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME_SERVER_NEW=${{ env.IMAGE_NAME_SERVER }}-debug" >> "$GITHUB_ENV"
       - name: output
         run: |
-          echo "Using modified IMAGE_NAME_SERVER1: ${{ needs.set-image-tag.outputs.image_name_server }}"
+          echo "Using modified IMAGE_NAME_SERVER1: ${{ env.IMAGE_NAME_SERVER_NEW }}"
+          echo "Using modified IMAGE_NAME_SERVER1: ${{ env.IMAGE_NAME_SERVER }}"
           
   test-name:
     needs: set-image-tag
