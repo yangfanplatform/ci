@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Modify env variables
+        id: output
         if: steps.check_tag.outputs.is_tag != 'true'
         run: |
           echo "IMAGE_NAME_SERVER=${{ env.IMAGE_NAME_SERVER }}-debug" >> "$GITHUB_ENV"
