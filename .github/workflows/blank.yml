@@ -8,7 +8,16 @@ on:
     tags:
       - '*'
 env:
+  REGISTRY: yangfanz/
+  ALIYUN_REGISTRY: registry.cn-hangzhou.aliyuncs.com/yangfanz/
   IMAGE_NAME_SERVER: server
+  IMAGE_NAME_TIMER: timer
+  IMAGE_NAME_MASTER: master
+  IMAGE_NAME_WORK: work
+  IMAGE_NAME_WEB: web
+  IMAGE_NAME_RUN: run
+  IMAGE_TAG: v1.${{ github.run_number }}
+
 
 jobs:
   set-image-tag:
@@ -16,10 +25,13 @@ jobs:
     steps:
       - name: Modify env variables
         if: steps.check_tag.outputs.is_tag != 'true'
-        id: outputs
         run: |
           echo "IMAGE_NAME_SERVER=${{ env.IMAGE_NAME_SERVER }}-debug" >> "$GITHUB_ENV"
-          echo "IMAGE_NAME_SERVER_NEW=${{ env.IMAGE_NAME_SERVER }}-debug" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME_TIMER=${{ env.IMAGE_NAME_TIMER }}-debug" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME_MASTER=${{ env.IMAGE_NAME_MASTER }}-debug" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME_WORK=${{ env.IMAGE_NAME_WORK }}-debug" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME_WEB=${{ env.IMAGE_NAME_WEB }}-debug" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME_RUN=${{ env.IMAGE_NAME_RUN }}-debug" >> "$GITHUB_ENV"
       - name: output
         run: |
           echo "Using modified IMAGE_NAME_SERVER1: ${{ env.IMAGE_NAME_SERVER_NEW }}"
