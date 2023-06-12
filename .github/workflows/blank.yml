@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    tags:
+      - '*'
+env:
+  IMAGE_NAME_SERVER: server
+
+jobs:
+  set-image-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Modify env variables
+        if: steps.check_tag.outputs.is_tag != 'true'
+        id: outputs
+        run: |
+          echo "::set-output image_name_server=${{ env.IMAGE_NAME_SERVER }}-debug" 
+      - name: output
+        run: |
+          echo "Using modified IMAGE_NAME_SERVER1: ${IMAGE_NAME_SERVER}"
+          
+  test-name:
+    needs: set-image-tag
+    name: Building a server image
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME_SERVER: ${{ needs.set-image-tag.outputs.image_name_server }}
+    steps:
+      - name: Use modified IMAGE_NAME_SERVER $IMAGE_NAME_SERVER
+        run: |
+          echo "Using modified IMAGE_NAME_SERVER1: ${{ env.IMAGE_NAME_SERVER }}"
+          
