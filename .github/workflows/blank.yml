@@ -1,51 +1,26 @@
-name: CI
+name: Example Workflow
 
 on:
   push:
     branches:
       - main
-      - dev
-    tags:
-      - '*'
-env:
-  REGISTRY: yangfanz/
-  ALIYUN_REGISTRY: registry.cn-hangzhou.aliyuncs.com/yangfanz/
-  IMAGE_NAME_SERVER: server
-  IMAGE_NAME_TIMER: timer
-  IMAGE_NAME_MASTER: master
-  IMAGE_NAME_WORK: work
-  IMAGE_NAME_WEB: web
-  IMAGE_NAME_RUN: run
-  IMAGE_TAG: v1.${{ github.run_number }}
 
+env:
+  IMAGE_NAME_SERVER: server
 
 jobs:
-  set-image-tag:
+  job1:
     runs-on: ubuntu-latest
     steps:
-      - name: Modify env variables
-        id: output
-        if: steps.check_tag.outputs.is_tag != 'true'
+      - name: Modify IMAGE_NAME_SERVER
+        id: modify
         run: |
-          echo "IMAGE_NAME_SERVER=${{ env.IMAGE_NAME_SERVER }}-debug" >> "$GITHUB_ENV"
-          echo "IMAGE_NAME_TIMER=${{ env.IMAGE_NAME_TIMER }}-debug" >> "$GITHUB_ENV"
-          echo "IMAGE_NAME_MASTER=${{ env.IMAGE_NAME_MASTER }}-debug" >> "$GITHUB_ENV"
-          echo "IMAGE_NAME_WORK=${{ env.IMAGE_NAME_WORK }}-debug" >> "$GITHUB_ENV"
-          echo "IMAGE_NAME_WEB=${{ env.IMAGE_NAME_WEB }}-debug" >> "$GITHUB_ENV"
-          echo "IMAGE_NAME_RUN=${{ env.IMAGE_NAME_RUN }}-debug" >> "$GITHUB_ENV"
-      - name: output
-        run: |
-          echo "Using modified IMAGE_NAME_SERVER1: ${{ env.IMAGE_NAME_SERVER_NEW }}"
-          echo "Using modified IMAGE_NAME_SERVER1: ${{ env.IMAGE_NAME_SERVER }}"
-          
-  test-name:
-    needs: set-image-tag
-    name: Building a server image
+          echo "::set-output name=image_name_server::${IMAGE_NAME_SERVER}-debug"
+  
+  job2:
+    needs: job1
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME_SERVER: ${{ needs.set-image-tag.outputs.image_name_server }}
     steps:
-      - name: Use modified IMAGE_NAME_SERVER $IMAGE_NAME_SERVER
+      - name: Use modified IMAGE_NAME_SERVER
         run: |
-          echo "Using modified IMAGE_NAME_SERVER1: ${{ env.IMAGE_NAME_SERVER }}"
-          
+          echo "Using modified IMAGE_NAME_SERVER: ${{ needs.job1.outputs.image_name_server }}"
