@@ -9,6 +9,7 @@ on:
 
 env:
   image_suffix: ''
+  IMAGE_TAG: v1.${{ github.run_number }}
 
 jobs:
   job1:
