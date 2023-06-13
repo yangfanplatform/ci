@@ -14,14 +14,19 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - name: Determine image_suffix
+      - name: Determine image_tag and image_suffix
         id: determine
         run: |
-          if [[ ${{ github.event_name }} == 'push' ]]; then
-            echo "::set-output name=image_suffix::debug"
+          if [[ ${{ github.event_name }} == 'push' && ${{ github.ref }} == 'refs/tags/*' ]]; then
+            image_tag=${{ github.ref }}
+            image_suffix=''
           else
-            echo "::set-output name=image_suffix::release"
+            image_tag=${{ env.IMAGE_TAG }}
+            image_suffix='debug'
           fi
-      - name: Show image_suffix
+          echo "::set-output name=image_tag::${image_tag}"
+          echo "::set-output name=image_suffix::${image_suffix}"
+      - name: Show image_tag and image_suffix
         run: |
+          echo "image_tag is ${{ steps.determine.outputs.image_tag }}"
           echo "image_suffix is ${{ steps.determine.outputs.image_suffix }}"
