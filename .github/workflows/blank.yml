@@ -1,4 +1,4 @@
-name: Example Workflow
+name: CI
 
 on:
   push:
@@ -18,8 +18,8 @@ env:
   IMAGE_NAME_WEB: web
   IMAGE_NAME_RUN: run
   IMAGE_TAG: v1.${{ github.run_number }}
+  
 jobs:
-
   set-image-tag:
     runs-on: ubuntu-latest
     steps:
@@ -42,12 +42,11 @@ jobs:
         id: output
         if: steps.check_tag.outputs.is_tag != ${{ github.ref }}" | grep -E '^refs/tags/')
         run: |
-          image_name=-debug" 
+          image_name"=-debug" 
       
 
 
-      - name: Set IMAGE_TAG
-        id: reset_image_tag1
+      - name: Set IMAGE_TAG image_name
         run: |
           echo "IMAGE_TAG=${TAG}"
           echo "IMAGE_TAG=${image_name}"name: Example Workflow
