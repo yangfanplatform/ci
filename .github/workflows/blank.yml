@@ -39,10 +39,10 @@ jobs:
       - name: Show IMAGE_TAG
         run: echo "IMAGE_TAG is ${{ env.IMAGE_TAG }}"
       - name: Modify env variables
-        id: output
-        if: steps.check_tag.outputs.is_tag != ${{ github.ref }}" | grep -E '^refs/tags/')
         run: |
-          image_name"=-debug" 
+          image_name=$("123")
+          if: steps.check_tag.outputs.is_tag != ${{ github.ref }}" | grep -E '^refs/tags/')
+          image_name=$("-debug")
       
 
 
