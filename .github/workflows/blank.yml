@@ -43,10 +43,11 @@ jobs:
         run: |
           if [[ ${{ startsWith(github.ref, 'refs/tags/') }} == 'true' ]]; then
             echo "::set-output name=image_suffix::debug"
-            TAG=$(echo "")
+            echo "::set-output name=tag::${{ env.IMAGE_TAG }}"
+
           else
             echo "::set-output name=image_suffix::''"
-            TAG=$(echo "${{ github.ref }}" | sed -e 's|^refs/tags/||')
+            echo "::set-output name=tag::$(echo "${{ github.ref }}" | sed -e 's|^refs/tags/||')"
           fi
       
 
