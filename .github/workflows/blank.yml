@@ -18,8 +18,8 @@ jobs:
       - name: Determine image_tag and image_suffix
         id: determine
         run: |
-          if [[ ${{ github.event_name }} == 'push' && ${{ github.ref }} == 'refs/tags/*' ]]; then
-            image_tag=${{ github.ref }}
+          if [[ steps.check_tag.outputs.is_tag == ${{ github.ref }}" | grep -E '^refs/tags/') ]]; then
+            image_tag=$(echo "${{ github.ref }}" | sed -e 's|^refs/tags/||')
             image_suffix=''
           else
             image_tag=${{ env.IMAGE_TAG }}
