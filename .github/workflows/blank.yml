@@ -49,4 +49,4 @@ jobs:
       - name: Set IMAGE_TAG image_name
         run: |
           echo "IMAGE_TAG=${TAG}"
-          echo "IMAGE_TAG=${image_name}"name: Example Workflow
+          echo "IMAGE_TAG=${image_name}"
