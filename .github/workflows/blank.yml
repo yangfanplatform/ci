@@ -53,7 +53,7 @@ jobs:
 
       - name: Set IMAGE_TAG image_name
         run: |
-          echo "IMAGE_TAG=${{ steps.determine.outputs.TAG }}"
+          echo "IMAGE_TAG=${{ steps.determine.outputs.tag }}"
           echo "image_suffix=${image_suffix}"
           echo "image_suffix is ${{ steps.determine.outputs.image_suffix }}"
 
