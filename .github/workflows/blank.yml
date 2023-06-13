@@ -39,14 +39,18 @@ jobs:
       - name: Show IMAGE_TAG
         run: echo "IMAGE_TAG is ${{ env.IMAGE_TAG }}"
       - name: Modify env variables
+        id: determine
         run: |
-          image_name=$("123")
-          if: steps.check_tag.outputs.is_tag != ${{ github.ref }}" | grep -E '^refs/tags/')
-          image_name=$("-debug")
+          if [[ ${{ github.event_name }} == 'push' ]]; then
+            echo "::set-output name=image_suffix::debug"
+          else
+            echo "::set-output name=image_suffix::release"
+          fi
       
-
 
       - name: Set IMAGE_TAG image_name
         run: |
           echo "IMAGE_TAG=${TAG}"
-          echo "IMAGE_TAG=${image_name}"
+          echo "image_suffix=${image_suffix}"
+          echo "image_suffix is ${{ steps.determine.outputs.image_suffix }}"
+
